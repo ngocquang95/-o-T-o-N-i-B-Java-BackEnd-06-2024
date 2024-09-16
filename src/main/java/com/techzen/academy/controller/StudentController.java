@@ -1,6 +1,9 @@
 package com.techzen.academy.controller;
 
-import org.springframework.http.HttpStatus;
+import com.techzen.academy.dto.ApiResponse;
+import com.techzen.academy.exception.ApiException;
+import com.techzen.academy.exception.ErrorCode;
+import com.techzen.academy.util.JsonResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,23 +24,23 @@ public class StudentController {
     );
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAll() {
-        return ResponseEntity.ok(students);
+    public ResponseEntity<ApiResponse<List<Student>>> getAll() {
+        return JsonResponse.ok(students);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<ApiResponse<Student>> getById(@PathVariable("id") UUID id) {
         return students.stream()
                 .filter(s -> s.getId().equals(id))
                 .findFirst()
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(JsonResponse::ok)
+                .orElseThrow(() -> new ApiException(ErrorCode.EMPLOYEE_NOT_EXIST));
     }
 
     @PostMapping
-    public ResponseEntity<Student> create(@RequestBody Student student) {
+    public ResponseEntity<ApiResponse<Student>> create(@RequestBody Student student) {
         student.setId(UUID.randomUUID());
         students.add(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body(student);
+        return JsonResponse.created(student);
     }
 }
