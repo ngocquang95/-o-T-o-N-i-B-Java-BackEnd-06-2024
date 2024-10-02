@@ -1,4 +1,4 @@
-package com.techzen.academy.controller;
+package com.techzen.academy.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

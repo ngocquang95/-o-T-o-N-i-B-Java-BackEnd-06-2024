@@ -1,13 +1,11 @@
 package com.techzen.academy.service.impl;
 
-import com.techzen.academy.controller.Student;
+import com.techzen.academy.model.Student;
 import com.techzen.academy.repository.IStudentRepository;
-import com.techzen.academy.repository.impl.StudentRepository;
 import com.techzen.academy.service.IStudentService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +18,8 @@ import java.util.UUID;
 public class StudentService implements IStudentService {
     IStudentRepository studentRepository;
 
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public List<Student> findByName(String name) {
+        return studentRepository.findByName(name);
     }
 
     public Optional<Student> findById(UUID id) {

@@ -3,15 +3,12 @@ package com.techzen.academy.controller;
 import com.techzen.academy.dto.ApiResponse;
 import com.techzen.academy.exception.ApiException;
 import com.techzen.academy.exception.ErrorCode;
+import com.techzen.academy.model.Student;
 import com.techzen.academy.service.IStudentService;
-import com.techzen.academy.service.impl.StudentService;
-import com.techzen.academy.service.impl.StudentService2;
 import com.techzen.academy.util.JsonResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StudentController { // Bean
-//    @Autowired
+    //    @Autowired
     IStudentService studentService;
 //    @Autowired
 //    public void setStudentService(IStudentService studentService) {
@@ -38,8 +35,9 @@ public class StudentController { // Bean
 //    }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Student>>> getAll() {
-        return JsonResponse.ok(studentService.findAll());
+    public ResponseEntity<ApiResponse<List<Student>>> getByName(
+            @RequestParam(defaultValue = "") String name) {
+        return JsonResponse.ok(studentService.findByName(name));
     }
 
 //    @GetMapping("/changeBean")
