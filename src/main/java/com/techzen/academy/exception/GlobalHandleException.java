@@ -1,6 +1,6 @@
 package com.techzen.academy.exception;
 
-import com.techzen.academy.model.Student;
+import com.techzen.academy.entity.Student;
 import com.techzen.academy.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

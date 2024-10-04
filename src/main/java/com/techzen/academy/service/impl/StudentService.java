@@ -1,6 +1,6 @@
 package com.techzen.academy.service.impl;
 
-import com.techzen.academy.model.Student;
+import com.techzen.academy.entity.Student;
 import com.techzen.academy.repository.IStudentRepository;
 import com.techzen.academy.service.IStudentService;
 import lombok.AccessLevel;

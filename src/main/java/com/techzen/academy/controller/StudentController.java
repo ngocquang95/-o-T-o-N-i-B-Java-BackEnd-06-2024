@@ -3,7 +3,7 @@ package com.techzen.academy.controller;
 import com.techzen.academy.dto.ApiResponse;
 import com.techzen.academy.exception.ApiException;
 import com.techzen.academy.exception.ErrorCode;
-import com.techzen.academy.model.Student;
+import com.techzen.academy.entity.Student;
 import com.techzen.academy.service.IStudentService;
 import com.techzen.academy.util.JsonResponse;
 import lombok.AccessLevel;

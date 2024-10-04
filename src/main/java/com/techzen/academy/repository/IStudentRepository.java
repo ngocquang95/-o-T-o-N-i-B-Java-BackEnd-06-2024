@@ -1,6 +1,6 @@
 package com.techzen.academy.repository;
 
-import com.techzen.academy.model.Student;
+import com.techzen.academy.entity.Student;
 
 import java.util.List;
 import java.util.Optional;

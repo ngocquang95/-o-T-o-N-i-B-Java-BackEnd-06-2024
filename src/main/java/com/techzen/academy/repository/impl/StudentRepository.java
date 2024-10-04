@@ -1,7 +1,8 @@
 package com.techzen.academy.repository.impl;
 
-import com.techzen.academy.model.Student;
+import com.techzen.academy.entity.Student;
 import com.techzen.academy.repository.IStudentRepository;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -24,26 +25,17 @@ public class StudentRepository implements IStudentRepository {
     ); // Model nhỏ
 
     public List<Student> findByName(String name) {
-        List<Student> studentList = new ArrayList<>();
+        Session session = ConnectionUtil.sessionFactory.openSession(); // Bước 1: Mở phiên làm việc (Session) từ ConnectionUtil
+        List<Student> students = null;
         try {
-            String query = "SELECT id, name, score FROM student WHERE name LIKE CONCAT('%', ?, '%')";
-            PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(query);
-            preparedStatement.setString(1, name);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                Student student = new Student(
-                        UUID.fromString(resultSet.getString("id")),
-                        resultSet.getString("name"),
-                        resultSet.getDouble("score")
-                );
-                studentList.add(student);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            students = session.createQuery("FROM Student WHERE name LIKE CONCAT('%', :name, '%')")
+                    .setParameter("name", name).getResultList(); // Bước 2: Sử dụng HQL để lấy danh sách sinh viên
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close(); // Bước 3: Đóng phiên làm việc sau khi lấy danh sách xong
         }
-        return studentList;
+        return students;
     }
 
     public Optional<Student> findById(UUID id) {
