@@ -6,6 +6,8 @@ import com.techzen.academy.service.IStudentService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +20,8 @@ import java.util.UUID;
 public class StudentService implements IStudentService {
     IStudentRepository studentRepository;
 
-    public List<Student> findByName(String name) {
-        return studentRepository.findByName(name);
+    public Page<List<Student>> findByName(String name, Double minScore, Double maxScore, Pageable pageable) {
+        return studentRepository.findByAttr(name, minScore, maxScore, pageable);
     }
 
     public Optional<Student> findById(UUID id) {

@@ -10,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +37,12 @@ public class StudentController { // Bean
 //    }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Student>>> getByName(
-            @RequestParam(defaultValue = "") String name) {
-        return JsonResponse.ok(studentService.findByName(name));
+    public ResponseEntity<?> getByName(
+            @RequestParam(defaultValue = "") String name,
+            Double minScore,
+            Double maxScore,
+            @PageableDefault(size = 2) Pageable pageable) {
+        return JsonResponse.ok(studentService.findByName(name, minScore, maxScore, pageable));
     }
 
 //    @GetMapping("/changeBean")

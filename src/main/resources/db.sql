@@ -25,11 +25,11 @@ DELIMITER ;
 
 -- Chèn dữ liệu vào bảng student
 INSERT INTO student (id, name, score)
-VALUES (UUID(), 'Nguyễn Văn A', 85.5),
-       (UUID(), 'Trần Thị B', 90.0),
-       (UUID(), 'Lê Văn C', 78.0),
-       (UUID(), 'Phạm Thị D', 88.0),
-       (UUID(), 'Đỗ Văn E', 92.5);
+VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'Nguyễn Văn A', 85.5),
+       (UNHEX(REPLACE(UUID(), '-', '')), 'Trần Thị B', 90.0),
+       (UNHEX(REPLACE(UUID(), '-', '')), 'Lê Văn C', 78.0),
+       (UNHEX(REPLACE(UUID(), '-', '')), 'Phạm Thị D', 88.0),
+       (UNHEX(REPLACE(UUID(), '-', '')), 'Đỗ Văn E', 92.5);
 
 
 INSERT INTO student(id, name, score)
