@@ -4,13 +4,14 @@ import com.techzen.academy.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface IStudentRepository extends JpaRepository<Student, UUID> {
+public interface IStudentRepository extends JpaRepository<Student, UUID>, JpaSpecificationExecutor<Student> {
     // Tìm theo điem
     // List<Student> findByNameContainingAndScoreBetween(String name, Double minScore, Double maxScore);
 //    @Query("from Student s where s.name like concat('%', :name, '%')" +

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IStudentService {
-    Page<List<Student>> findByName(String name, Double minScore, Double maxScore, Pageable pageable);
+    Page<Student> findByName(String name, Double minScore, Double maxScore, Pageable pageable);
 
     Optional<Student> findById(UUID id);
 

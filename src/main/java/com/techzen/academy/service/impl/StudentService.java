@@ -2,12 +2,14 @@ package com.techzen.academy.service.impl;
 
 import com.techzen.academy.entity.Student;
 import com.techzen.academy.repository.IStudentRepository;
+import com.techzen.academy.repository.StudentSpecification;
 import com.techzen.academy.service.IStudentService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,13 @@ import java.util.UUID;
 public class StudentService implements IStudentService {
     IStudentRepository studentRepository;
 
-    public Page<List<Student>> findByName(String name, Double minScore, Double maxScore, Pageable pageable) {
-        return studentRepository.findByAttr(name, minScore, maxScore, pageable);
+    public Page<Student> findByName(String name, Double minScore, Double maxScore, Pageable pageable) {
+//        return studentRepository.findByAttr(name, minScore, maxScore, pageable);
+        Specification<Student> spec = Specification.where(StudentSpecification.hasName(name))
+                .and(StudentSpecification.hasMinScore(minScore))
+                .and(StudentSpecification.hasMaxScore(maxScore));
+
+        return studentRepository.findAll(spec, pageable);
     }
 
     public Optional<Student> findById(UUID id) {

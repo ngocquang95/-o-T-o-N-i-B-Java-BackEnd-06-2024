@@ -1,5 +1,6 @@
 package com.techzen.academy.entity;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
