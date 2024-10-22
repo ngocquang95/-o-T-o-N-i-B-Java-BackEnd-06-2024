@@ -1,6 +1,5 @@
 package com.techzen.academy.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +19,5 @@ public class Clazz {
     String name;
 
     @OneToMany(mappedBy = "clazz")
-//    @JsonIgnore
-    @JsonIgnoreProperties("clazz")
     List<Student> students;
 }

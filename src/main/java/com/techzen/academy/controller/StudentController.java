@@ -1,14 +1,19 @@
 package com.techzen.academy.controller;
 
 import com.techzen.academy.dto.ApiResponse;
+import com.techzen.academy.dto.clazz.ClazzResponse;
+import com.techzen.academy.dto.student.StudentRequest;
+import com.techzen.academy.dto.student.StudentResponse;
 import com.techzen.academy.exception.ApiException;
 import com.techzen.academy.exception.ErrorCode;
 import com.techzen.academy.entity.Student;
+import com.techzen.academy.mapper.IStudentMapper;
 import com.techzen.academy.service.IStudentService;
 import com.techzen.academy.util.JsonResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +32,7 @@ import java.util.UUID;
 public class StudentController { // Bean
     //    @Autowired
     IStudentService studentService;
+    IStudentMapper studentMapper;
 //    @Autowired
 //    public void setStudentService(IStudentService studentService) {
 //        this.studentService = studentService;
@@ -42,7 +48,10 @@ public class StudentController { // Bean
             Double minScore,
             Double maxScore,
             @PageableDefault(size = 2) Pageable pageable) {
-        return JsonResponse.ok(studentService.findByName(name, minScore, maxScore, pageable));
+        return JsonResponse.ok(
+                studentService.findByName(name, minScore, maxScore, pageable)
+                        .map(studentMapper::studentToStudentResponse)
+        );
     }
 
 //    @GetMapping("/changeBean")
@@ -55,15 +64,18 @@ public class StudentController { // Bean
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<ApiResponse<StudentResponse>> getById(@PathVariable("id") UUID id) {
         return studentService.findById(id)
-                .map(JsonResponse::ok)
+                .map(s -> JsonResponse.ok(
+                        studentMapper.studentToStudentResponse(s))
+                )
                 .orElseThrow(() -> new ApiException(ErrorCode.EMPLOYEE_NOT_EXIST)); // Service
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Student>> create(@RequestBody Student student) {
+    public ResponseEntity<ApiResponse<StudentResponse>> create(@RequestBody StudentRequest studentRequest) {
+        Student student = studentMapper.studentRequestToStudent(studentRequest);
         studentService.save(student);
-        return JsonResponse.created(student);
+        return JsonResponse.created(studentMapper.studentToStudentResponse(student));
     }
 }

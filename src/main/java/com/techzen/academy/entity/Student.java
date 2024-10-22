@@ -1,6 +1,5 @@
 package com.techzen.academy.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -24,6 +23,5 @@ public class Student {
     Double score;
 
     @ManyToOne
-    @JsonIgnoreProperties("students")
     Clazz clazz;
 }
