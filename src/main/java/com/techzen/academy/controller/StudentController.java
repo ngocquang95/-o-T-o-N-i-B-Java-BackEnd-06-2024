@@ -10,6 +10,7 @@ import com.techzen.academy.entity.Student;
 import com.techzen.academy.mapper.IStudentMapper;
 import com.techzen.academy.service.IStudentService;
 import com.techzen.academy.util.JsonResponse;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,9 +19,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +35,7 @@ import java.util.UUID;
 // singleton Mặc định
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+//@Validated
 public class StudentController { // Bean
     //    @Autowired
     IStudentService studentService;
@@ -73,7 +80,7 @@ public class StudentController { // Bean
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<StudentResponse>> create(@RequestBody StudentRequest studentRequest) {
+    public ResponseEntity<?> create(@Valid @RequestBody StudentRequest studentRequest) {
         Student student = studentMapper.studentRequestToStudent(studentRequest);
         studentService.save(student);
         return JsonResponse.created(studentMapper.studentToStudentResponse(student));
